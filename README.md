@@ -1,24 +1,106 @@
 # SpitWit
 
-_Welcome to SpitWit! A Quiplash™ clone!_
+SpitWit is an online multiplayer party game clone of [Quiplash](https://jackboxgames.com/project/quiplash/). Each game can have 3-8 players in which players will submit answers for prompts, and then vote on their favorite answers. The prompts and answers are meant to be facetious and witty, and may contain some offensive content.
 
-Have a laugh with up to 8 players as you spit your wit in a head-to-head battle of
-quirky, comedic fun!
+# Built with
 
-**INSTRUCTIONS**
+- React
+- Ruby on Rails
+- ActionCable
+- PostgreSQL
 
---Creating a game--
+# Getting started
 
-Start the game by visiting 'spitwit.herokuapp.com'. Once you reach the main menu click the "Create a new game" button to create a game. After creating a game create a username to display as you play. Once submitting your username you will join a game lobby that will display your game-code. Share your game-code with up to 8 of your friends to fill your lobby. Once at least 3 people are in a lobby you can start your game by pressing the start game button. After you start your game answer the prompts. After the timer counts to 0 the voting rounds begin. Vote for your favorite answer and enjoy all the laughs along the way! After all the rounds complete see who won and do it all again!
+These instructions will get you a copy of the project up and running on your local machine for development.
 
---Joining a Game--
+## Prerequisites
 
-Joining a game is as easy as entering the game-code into the input in the lobby. Game-codes are displayed in the lobby of each game and randomly generated when a game is created. Ask a host for their game code and enter it to join their lobby. After joining wait for the host to start the game. Once the game is started answer and submit your prompts. During the voting phase enjoy your friends wit and vote for your favorite answer. After the voting rounds end see who spit the most wit and decide if you want to go back to the main menu.
+- Ruby on Rails: https://guides.rubyonrails.org/v5.0/getting_started.html
+- PostgreSQL: https://www.postgresql.org/download/
 
-**GAME FLOW**
+## Development setup
 
-After creating or joining a game each player is tasked with creating a username. After a username is submitted players enter a lobby that displays all the players in their lobby. Once 3 or more players have joined a lobby the host is given the option to start a game. After the game starts each player is shown 4 prompts and given 90 seconds to write a witty answer for all of the prompts. After the initial answer phase the game moves into the voting phase. During each voting round one prompt is shown with the two different players answers to the prompt. Each round allots 10 seconds for players to vote for their favorite answer. After the voting phase of each round a results phase ensues displaying the votes for each players answer. The player's answer with the most votes wins the round and the player is allocated 100 points. After all of the rounds have commenced a final results round displays the results for the entire game and winner is highlighted.
+Clone the repository to the local machine. In the root directory, the application is split into its client and server files. The server and client will both have to be running for the application to run in development.
 
-**GAME LOGIC**
+### Server
 
-This game works 
+The server will serve as the Rails API endpoint for the client application.
+First, start up PostgreSQL. Then set up the database with these commands.
+
+```sh
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+Once the development database is set up on PostgreSQL, run this command to start the Rails server. The application will be running on `localhost:3000`.
+
+```sh
+rails s
+```
+
+### Client
+
+Install the dependencies for the app with the following command.
+
+```sh
+yarn install
+```
+
+Then start the React app with this command. Since the Rails API is already running on `localhost:3000`, you will have to choose a different port for the client. The React app will prompt the user to switch to `localhost:3001` by default.
+
+```sh
+yarn start
+```
+
+Make sure that the API endpoint in the client code refers to `localhost:3000` when running the local development server.
+
+## Deployment
+
+To deploy the app onto a live system to allow multiplayer gameplay, both the server and client will have to be hosted on a platform such as heroku.
+
+### Separating client and server
+
+In the application root, remove git with this command.
+
+```sh
+rm -rf .git
+```
+
+The client and server will have to be set up as individual git repositories so that they can be deployed separately. In this example, heroku will be used as the hosting platform. In each of the `client` and `server` directories, run the following, replacing `heroku` with the platform of choice.
+
+```sh
+heroku create
+git add .
+git commit -m "init"
+git push heroku master
+```
+
+Change the API endpoint in the client code such that it refers to the correct URL for the server API. Then set up the database in the `server`. Seeding the database will create all of the prompts seeded from Quiplash XL.
+
+```sh
+heroku run rake db:migrate
+heroku run rake db:seed
+```
+
+# Usage
+
+On the homepage, a user can create a new game with the create game button, or join an existing one by entering in a room code or through quick join.
+
+## Creating/Joining a game
+
+If a user creates a game, the user will be the host for that game instance, and be placed into a lobby prompting for the player name. The lobby contains the room code which the host should share with other players so that they can join the same game.
+
+A user can join a game by entering the 4-character room code, or by pressing the quick join button. Quick join will place the player into the most recently created game that has not yet started. Users will be placed into the respective lobbies by joining games.
+
+## Playing the game
+The game can be played at https://spitwit.herokuapp.com
+
+### Answering prompts
+Once the host starts the game when there are at least three players in the lobby, each of the players will be given 4 prompts to answer. The goal of the answers is to be witty such that other players will vote for your answer. Getting more votes awards more points, and the player with the most points at the end of the game will win the game. If the player does not submit an answer, the server will automatically fill in an answer seeded from Cards Against Humanity answers.
+
+### Voting rounds
+After the prompts are submitted and the timer runs out, each of the players will be given the prompts and the respective answers. The game will first display the prompt and answers during which players can vote. Then after the timer for the voting round expires, the game will display the number of votes each answer recieved as well as the corresponding points awarded. 
+
+### Game end
+At the end of the game, players will be able to see the leaderboard as well as the answer that received the most votes in the game. 
