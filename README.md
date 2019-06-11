@@ -2,6 +2,8 @@
 
 SpitWit is an online multiplayer party game clone of [Quiplash](https://jackboxgames.com/project/quiplash/). Each game can have 3-8 players in which players will submit answers for prompts, and then vote on their favorite answers. The prompts and answers are meant to be facetious and witty, and may contain some offensive content.
 
+![demo](https://giant.gfycat.com/SickAgileFrilledlizard.gif)
+
 # Built with
 
 - React
@@ -96,8 +98,12 @@ A user can join a game by entering the 4-character room code, or by pressing the
 ## Playing the game
 The game can be played at https://spitwit.herokuapp.com
 
+![lobby](https://i.imgur.com/YCuBfgG.png)
+
 ### Answering prompts
 Once the host starts the game when there are at least three players in the lobby, each of the players will be given 4 prompts to answer. The goal of the answers is to be witty such that other players will vote for your answer. Getting more votes awards more points, and the player with the most points at the end of the game will win the game. If the player does not submit an answer, the server will automatically fill in an answer seeded from Cards Against Humanity answers.
+
+![lobby](https://i.imgur.com/neC7xQF.png)
 
 ### Voting rounds
 After the prompts are submitted and the timer runs out, each of the players will be given the prompts and the respective answers. The game will first display the prompt and answers during which players can vote. Then after the timer for the voting round expires, the game will display the number of votes each answer recieved as well as the corresponding points awarded. 
